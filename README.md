@@ -1,7 +1,7 @@
 # Video Subtitle Pipeline
 
-Automatically processes a single video or a full batch folder: it transcribes audio, translates subtitles into a target language, and produces three outputs for each video: the original-language SRT, the translated SRT, and a video with the translated subtitles embedded.
-Works on a **single video file** or **recursively across an entire folder tree**.
+Transcribe video audio, translate subtitles into a target language, and embed the translated subtitles into the final video.
+Supports both **single-file processing** and **recursive batch processing** across folder trees.
 
 **Pipeline:**
 1. Read the reference transcript (`.txt` or `.pdf`) to guide Whisper's vocabulary
@@ -9,10 +9,10 @@ Works on a **single video file** or **recursively across an entire folder tree**
 3. Translate each subtitle line with Google Translate (no API key required)
 4. Burn the translated subtitles into the video with FFmpeg
 
-For every video processed, three output files are produced:
-- the original-language SRT
-- the translated SRT
-- the output video with subtitles burned in
+For each processed video, the pipeline generates:
+- an original-language SRT file
+- a translated SRT file
+- a subtitled output video in the target language
 
 ---
 
