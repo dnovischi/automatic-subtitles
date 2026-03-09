@@ -1,0 +1,11 @@
+# Core transcription (pulls in torch automatically)
+openai-whisper
+
+# SRT parsing and composition
+srt
+
+# Translation via Google Translate (free, no API key needed)
+deep-translator
+
+# PDF transcript support (optional, only needed when --transcript is a .pdf)
+pypdf

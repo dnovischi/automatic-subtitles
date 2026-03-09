@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Whisper model cache
+~/.cache/whisper/
+
+# Temporary / intermediate files
+*.srt
+*.tmp
+
+# Output videos (keep source videos, ignore processed ones)
+*_ro.*
+*_es.*
+*_fr.*
+*_de.*
+*_it.*
+*_pt.*
+*_nl.*
+*_pl.*
+*_ru.*
+*_uk.*
+*_ja.*
+*_ar.*
+*_cs.*
+*_tr.*
+*_sv.*
+*_fi.*
+*_hu.*
+*_ko.*
+*_hi.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
