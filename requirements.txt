@@ -9,3 +9,15 @@ deep-translator
 
 # PDF transcript support (optional, only needed when --transcript is a .pdf)
 pypdf
+
+# Dubbing support (only needed when using --dub)
+edge-tts
+pydub
+
+# Optional: better translation engines
+
+# DeepL (high quality, free API key required - https://www.deepl.com/pro-api)
+# pip install deepl
+
+# Local GPU translation via NLLB-200 (no API key, runs on your GPU)
+# pip install transformers sentencepiece

@@ -59,6 +59,22 @@ This installs:
 
 PyTorch is pulled in automatically as a dependency of Whisper.
 
+### 5. (Optional) Better translation engines
+
+**DeepL** — higher quality, free API key required ([deepl.com/pro-api](https://www.deepl.com/pro-api), 500k chars/month free):
+
+```bash
+pip install deepl
+```
+
+**Local GPU (NLLB-200)** — runs entirely on your GPU, no API key, comparable quality to DeepL:
+
+```bash
+pip install transformers sentencepiece
+```
+
+The model (~2.4 GB) is downloaded automatically on first use and cached in `~/.cache/huggingface/`.
+
 ---
 
 ## Usage
@@ -99,6 +115,9 @@ global `--transcript` is used, or Whisper runs in auto-mode if neither exists.
 | `--model` | `medium` | Whisper model to use. Larger models are slower but more accurate. |
 | `--device` | auto | `cpu` or `cuda`. Auto-detects CUDA if available. |
 | `--source-lang` | `auto` | Source language code for translation. Auto-detected by default. |
+| `--translator` | `google` | Translation engine: `google` (free, no key), `deepl` (better quality, free API key required), or `local` (NLLB-200 on your GPU, no API key). |
+| `--deepl-key` | none | DeepL API auth key. Required when `--translator deepl`. Can also be set via the `DEEPL_AUTH_KEY` environment variable. |
+| `--local-model` | `facebook/nllb-200-distilled-600M` | HuggingFace model for `--translator local`. Use `facebook/nllb-200-distilled-1.3B` for better quality. |
 | `--output` | `<name>_<lang>.<ext>` | *(single)* Custom output video path. |
 
 ### Whisper model sizes
@@ -112,6 +131,7 @@ global `--transcript` is used, or Whisper runs in auto-mode if neither exists.
 | `large` | ~10 GB | slow | excellent |
 | `large-v2` | ~10 GB | slow | excellent |
 | `large-v3` | ~10 GB | slow | best |
+| `turbo` | ~6 GB | fast | excellent |
 
 For a 7-8 GB GPU, `medium` is the largest model that fits reliably.
 
@@ -201,6 +221,7 @@ Three files are created next to the input video:
 | File | Description |
 |------|-------------|
 | `lecture_<lang>.mp4` | Output video with subtitles burned in |
+| `lecture_dubbed_<lang>.mp4` | *(--dub)* Dubbed video with translated speech |
 | `lecture_original.srt` | Subtitles in the original spoken language |
 | `lecture_<lang>.srt` | Subtitles translated into the target language |
 
@@ -212,11 +233,13 @@ folder inside `--output-dir`:
 ```
 class01_ro/
   week1/
-    lecture_ro.mp4         # video with subtitles burned in
-    lecture_original.srt   # original-language subtitles
-    lecture_ro.srt         # translated subtitles
+    lecture_ro.mp4          # video with subtitles burned in
+    lecture_dubbed_ro.mp4   # (--dub) dubbed video with translated speech
+    lecture_original.srt    # original-language subtitles
+    lecture_ro.srt          # translated subtitles
   week2/
     demo_ro.mp4
+    demo_dubbed_ro.mp4
     demo_original.srt
     demo_ro.srt
 ```
