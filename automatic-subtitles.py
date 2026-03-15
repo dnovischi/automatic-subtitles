@@ -94,6 +94,20 @@ def detect_device() -> str:
         return "cpu"
 
 
+def detect_nvenc() -> bool:
+    """Return True if ffmpeg was built with h264_nvenc AND a CUDA GPU is present."""
+    if detect_device() != "cuda":
+        return False
+    try:
+        result = subprocess.run(
+            ["ffmpeg", "-hide_banner", "-encoders"],
+            capture_output=True, text=True, timeout=10,
+        )
+        return "h264_nvenc" in result.stdout
+    except Exception:
+        return False
+
+
 def read_transcript(path) -> str:
     """Read a reference transcript from a .txt or .pdf file.
 
@@ -471,8 +485,14 @@ def burn_subtitles(video_path: Path, srt_path: Path, output_path: Path):
 
     The SRT is copied to a temp directory with a plain ASCII filename so that
     the FFmpeg filtergraph never sees special characters or spaces in the path.
+    When an NVIDIA GPU with NVENC support is detected the video stream is
+    encoded with h264_nvenc instead of the default software encoder.
     """
     duration = get_video_duration(video_path)
+    use_nvenc = detect_nvenc()
+    video_codec = ["h264_nvenc", "-rc", "vbr", "-cq", "23"] if use_nvenc else ["libx264", "-crf", "23", "-preset", "fast"]
+    if use_nvenc:
+        print("  GPU detected — using h264_nvenc for encoding.")
 
     with tempfile.TemporaryDirectory() as tmpdir:
         tmp_srt = Path(tmpdir) / "subtitles.srt"
@@ -482,6 +502,7 @@ def burn_subtitles(video_path: Path, srt_path: Path, output_path: Path):
             "ffmpeg", "-y",
             "-i", str(video_path),
             "-vf", f"subtitles={tmp_srt}",
+            "-c:v", *video_codec,
             "-c:a", "copy",
             "-progress", "pipe:1",
             "-nostats",

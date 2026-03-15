@@ -307,5 +307,6 @@ This project is licensed under the [MIT License](LICENSE).
 ## Support
 
 If you find this project useful, consider buying me a coffee!
+It helps me stay caffeinated and motivated to maintain and improve this tool.
 
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-dan.novischi-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/dan.novischi)
