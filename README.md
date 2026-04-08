@@ -3,6 +3,8 @@
 Transcribe video audio, translate subtitles into a target language, and embed the translated subtitles into the final video.
 Supports both **single-file processing** and **recursive batch processing** across folder trees.
 
+If you already have `.srt` files and only need to burn them into videos, see `embed-subtitles.py` and [README-embed-subtitles.md](README-embed-subtitles.md).
+
 **Pipeline:**
 1. Read the reference transcript (`.txt` or `.pdf`) to guide Whisper's vocabulary
 2. Transcribe the video audio with [Whisper](https://github.com/openai/whisper)
